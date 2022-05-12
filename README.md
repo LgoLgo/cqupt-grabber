@@ -22,8 +22,16 @@
 
 我将默认你已经拥有Go语言开发环境，如果你还没有可以去到[这个链接](https://blog.csdn.net/weixin_44621343/article/details/117792504)
 
-`git clone https://github.com/L2ncE/CQUPT-Class-Grabing-Tool.git`
+1. 你需要Go的开发环境[Go](https://golang.org/)，然后您可以使用以下 Go 命令安装 Gin
+```sh
+$ go get -u github.com/L2ncE/CQUPT-ClassGrabbing
+```
 
-将代码克隆到本地，至此准备工作已完毕
+2. 在你的代码中import
+
+```go
+import "github.com/L2ncE/CQUPT-ClassGrabbing"
+```
+
 
 ### 使用说明
