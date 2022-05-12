@@ -17,3 +17,13 @@
 **您必须在下载后的24小时内从计算机或手机中完全删除以上内容**
 
 > ***您使用或者复制了本仓库的脚本，则视为 `已接受` 此声明，请仔细阅读***
+
+### 快速开始
+
+我将默认你已经拥有Go语言开发环境，如果你还没有可以去到[这个链接](https://blog.csdn.net/weixin_44621343/article/details/117792504)
+
+`git clone https://github.com/L2ncE/CQUPT-Class-Grabing-Tool.git`
+
+将代码克隆到本地，至此准备工作已完毕
+
+### 使用说明
