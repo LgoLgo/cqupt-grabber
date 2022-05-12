@@ -1,4 +1,4 @@
-package main
+package Rob
 
 import (
 	"encoding/json"
@@ -15,16 +15,7 @@ type Response struct {
 	Info string `json:"info"`
 }
 
-var cookie = "****" //自行输入
-
-//自行填入
-var loads = []string{
-	"*****",
-	"*****",
-	"*****",
-	"*****"}
-
-func rob(load string) string {
+func SingleRob(load string, cookie string) string {
 	client := &http.Client{}
 	var data = strings.NewReader(load)
 	req, err := http.NewRequest("POST", "http://xk1.cqupt.edu.cn/post.php", data)
@@ -66,12 +57,12 @@ func rob(load string) string {
 	return Response.Info
 }
 
-func main() {
+func Rob(cookie string, loads []string) {
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
 		for j, load := range loads {
 			j += 1
-			info := rob(load)
+			info := SingleRob(load, cookie)
 			if info == "ok" {
 				log.Printf("课程%d：%s\n", j, info)
 				goto ok
