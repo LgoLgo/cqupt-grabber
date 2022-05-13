@@ -8,8 +8,11 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 )
+
+var wg sync.WaitGroup
 
 //SingleRob 仅抢课一次，传递单个load以及cookie
 func SingleRob(cookie string, load string) string {
@@ -54,6 +57,25 @@ func SingleRob(cookie string, load string) string {
 	return Response.Info
 }
 
+func HighConcurrencySingleRob(cookie string, load string, j int) {
+	j += 1
+	log.Printf("协程%d开启\n", j)
+	for i := 1; ; i++ {
+		log.Printf("第%d次抢课开始", i)
+		//调用SingleRob进行循环抢课
+		info := SingleRob(cookie, load)
+		if info == "ok" {
+			log.Printf(info)
+			wg.Done()
+			return
+		} else {
+			log.Printf("课程%d：%s\n", j, info)
+		}
+		log.Printf("第%d次抢课失败\n\n", i)
+		time.Sleep(250 * time.Millisecond)
+	}
+}
+
 //SingleRobWithInfo 仅抢课一次，传递单个load以及cookie，打印Info
 func SingleRobWithInfo(cookie string, load string) {
 	log.Printf(SingleRob(cookie, load))
@@ -85,7 +107,7 @@ ok:
 	log.Println("抢课成功")
 }
 
-//LoopRob 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban。
+// LoopRobWithCustomTime 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban。
 //传入一个cookie和一个load切片以及自定义时间
 func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 
@@ -109,5 +131,15 @@ func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 		time.Sleep(time.Duration(duration*1000) * time.Millisecond)
 	}
 ok:
+	log.Println("抢课成功")
+}
+
+func LoopRobWithHighConcurrency(cookie string, loads []string) {
+	wg.Add(1)
+	for i, load := range loads {
+		//调用SingleRob进行循环抢课
+		go HighConcurrencySingleRob(cookie, load, i)
+	}
+	wg.Wait()
 	log.Println("抢课成功")
 }
