@@ -1,4 +1,4 @@
-package Rob
+package classRobbing
 
 import (
 	"encoding/json"
@@ -10,12 +10,10 @@ import (
 	"time"
 )
 
-type Response struct {
-	Code int    `json:"code"`
-	Info string `json:"info"`
-}
+var Response = model.
 
-func SingleRob(load string, cookie string) string {
+//SingleRob 仅抢课一次，传递单个load以及cookie
+func SingleRob(cookie string, load string) string {
 	client := &http.Client{}
 	var data = strings.NewReader(load)
 	req, err := http.NewRequest("POST", "http://xk1.cqupt.edu.cn/post.php", data)
@@ -57,11 +55,16 @@ func SingleRob(load string, cookie string) string {
 	return Response.Info
 }
 
-func Rob(cookie string, loads []string) {
+//LoopRob 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban。
+//传入一个cookie和一个load切片
+func LoopRob(cookie string, loads []string) {
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
 		for j, load := range loads {
 			j += 1
+
+			//调用SingleRob进行循环抢课
+
 			info := SingleRob(load, cookie)
 			if info == "ok" {
 				log.Printf("课程%d：%s\n", j, info)
