@@ -1,4 +1,23 @@
-# 重庆邮电大学抢课工具
+# 重庆邮电大学抢课框架
+
+##目录
+- [重庆邮电大学抢课框架](#重庆邮电大学抢课框架)
+    - [目录](#目录)
+    - [特别声明](#特别声明)
+    - [安装](#安装)
+    - [快速开始](#快速开始)
+    - [Build with jsoniter/go-json](#build-with-json-replacement)
+    - [Build without `MsgPack` rendering feature](#build-without-msgpack-rendering-feature)
+    - [API Examples](#api-examples)
+        - [Using GET, POST, PUT, PATCH, DELETE and OPTIONS](#using-get-post-put-patch-delete-and-options)
+        - [Parameters in path](#parameters-in-path)
+        - [Querystring parameters](#querystring-parameters)
+        - [Multipart/Urlencoded Form](#multiparturlencoded-form)
+        - [Another example: query + post form](#another-example-query--post-form)
+        - [Map as querystring or postform parameters](#map-as-querystring-or-postform-parameters)
+        - [Upload files](#upload-files)
+            - [Single file](#single-file)
+            - [Multiple files](#multiple-files)
 
 ## 特别声明
 
@@ -18,7 +37,7 @@
 
 > ***您使用或者复制了本仓库的脚本，则视为 `已接受` 此声明，请仔细阅读***
 
-### 快速开始
+## 安装
 
 我将默认你已经拥有Go语言开发环境，如果你还没有可以去到[这个链接](https://blog.csdn.net/weixin_44621343/article/details/117792504)
 
@@ -34,4 +53,22 @@ import "github.com/L2ncE/CQUPT-ClassGrabbing"
 ```
 
 
-### 使用说明
+## 快速开始
+使用包中的LoopRob
+```go
+package main
+
+import (
+	"github.com/L2ncE/CQUPT-ClassGrabbing/classRobbing"
+)
+
+func main() {
+	cookie := "*********"
+	loads := []string{"*****",
+		"*****"}
+	
+	classRobbing.LoopRob(cookie, loads)
+}
+```
+其中cookie以及loads需要自己获取
+
