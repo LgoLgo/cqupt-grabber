@@ -6,18 +6,10 @@
     - [特别声明](#特别声明)
     - [安装](#安装)
     - [快速开始](#快速开始)
-    - [Build with jsoniter/go-json](#build-with-json-replacement)
-    - [Build without `MsgPack` rendering feature](#build-without-msgpack-rendering-feature)
-    - [API Examples](#api-examples)
-        - [Using GET, POST, PUT, PATCH, DELETE and OPTIONS](#using-get-post-put-patch-delete-and-options)
-        - [Parameters in path](#parameters-in-path)
-        - [Querystring parameters](#querystring-parameters)
-        - [Multipart/Urlencoded Form](#multiparturlencoded-form)
-        - [Another example: query + post form](#another-example-query--post-form)
-        - [Map as querystring or postform parameters](#map-as-querystring-or-postform-parameters)
-        - [Upload files](#upload-files)
-            - [Single file](#single-file)
-            - [Multiple files](#multiple-files)
+    - [COOKIE以及LOADS的获取教程](#COOKIE以及LOADS的获取教程)
+         - [COOKIE](#COOKIE)
+         - [LOAD](#LOAD)
+    - [其余高级操作](#其余高级操作)
 
 ## 特别声明
 
@@ -54,21 +46,103 @@ import "github.com/L2ncE/CQUPT-ClassGrabbing"
 
 
 ## 快速开始
-使用包中的LoopRob
+使用包中的LoopRob，0.25s进行一次抢课，直到有一门课被抢到
 ```go
 package main
 
 import (
-	"github.com/L2ncE/CQUPT-ClassGrabbing/classRobbing"
+	"github.com/L2ncE/CQUPT-ClassGrabbing/ClassGrabbing"
 )
 
 func main() {
-	cookie := "*********"
-	loads := []string{"*****",
-		"*****"}
+	cookie := "这里是一个cookie"
 	
-	classRobbing.LoopRob(cookie, loads)
+	//支持同时抢多门课程
+	loads := []string{
+		"这里是第一节课",
+		"这里是第二节课"}
+
+	ClassGrabbing.LoopRob(cookie, loads)
 }
 ```
 其中cookie以及loads需要自己获取
+
+## COOKIE以及LOADS的获取教程
+
+### COOKIE
+首先进入到[选课系统](http://xk1.cqupt.edu.cn/)中登录进入到选课详细界面
+
+在键盘上按下**F12**进入开发者工具并点击网络选项卡
+
+![image-20220513233644944](C:\Users\Yuan\AppData\Roaming\Typora\typora-user-images\image-20220513233644944.png)
+
+在键盘上按**F5**进行页面刷新后，网络视图同样会进行刷新，我们点击yxk.php后选择标头选项卡
+
+![image-20220513233828066](C:\Users\Yuan\AppData\Roaming\Typora\typora-user-images\image-20220513233828066.png)
+
+然后一直往下翻，就会找到**COOKIE**，将其复制下来即可
+
+![image-20220513233921962](C:\Users\Yuan\AppData\Roaming\Typora\typora-user-images\image-20220513233921962.png)
+
+### LOAD
+
+#### 方法一
+
+重复和上面COOKIE的相同步骤到选课界面，在你想选择的课程旁边点击“+”号，查看网络选项卡会新增一个POST请求，将其负载选项卡中的源代码复制下来即可
+
+![image-20220513234236467](C:\Users\Yuan\AppData\Roaming\Typora\typora-user-images\image-20220513234236467.png)
+
+
+
+#### 方法二
+
+我们的抢课工具中就已经封装了获取load的函数
+
+> 分别可以获取所有人文、自然选课的负载（会有课程相关的信息提示），除此以外还可以通过模糊搜索进行快速准确的查找
+
+```go
+package main
+
+import (
+	"github.com/L2ncE/CQUPT-ClassGrabbing/Query"
+)
+
+func main() {
+	cookie := "这里是一个cookie"
+	param := "Rw or Zr" //其中Rw为人文选修，Zr为自然选修
+	content := "你想模糊搜索的内容" //例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
+
+	Query.AllRenWen(cookie)
+	Query.AllZiRan(cookie)
+	Query.Search(param, cookie, content)
+}
+
+```
+
+## 其余高级操作
+
+```go
+//高并发抢课 会有被BAN风险
+func LoopRobWithHighConcurrency(cookie string, loads []string) {
+...
+}
+...
+```
+
+```go
+//只进行一次访问并传回响应
+func SingleRobWithInfo(cookie string, load string) {
+...
+}
+...
+```
+
+```go
+//自定义一次访问的速度
+//duration中为你想自定义的秒数，建议不小于0.2
+func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
+...
+}
+...
+```
 
