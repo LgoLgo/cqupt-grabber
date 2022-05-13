@@ -3,7 +3,7 @@ package Query
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/L2ncE/CQUPT-ClassGrabbing/model"
+	"github.com/L2ncE/CQUPTClassGrabbing/model"
 	"io/ioutil"
 	"log"
 	"net/http"
