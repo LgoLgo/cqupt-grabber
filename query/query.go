@@ -1,4 +1,4 @@
-package query
+package Query
 
 import (
 	"encoding/json"

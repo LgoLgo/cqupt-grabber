@@ -1,4 +1,4 @@
-package classRobbing
+package ClassGrabbing
 
 import (
 	"encoding/json"
