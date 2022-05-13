@@ -1,6 +1,6 @@
 package model
 
-type response struct {
+type Response struct {
 	Code int    `json:"code"`
 	Info string `json:"info"`
 }
