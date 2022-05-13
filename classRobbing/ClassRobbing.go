@@ -2,6 +2,7 @@ package classRobbing
 
 import (
 	"encoding/json"
+	"github.com/L2ncE/CQUPT-ClassGrabbing/model"
 	"io"
 	"io/ioutil"
 	"log"
@@ -9,8 +10,6 @@ import (
 	"strings"
 	"time"
 )
-
-var Response = model.
 
 //SingleRob 仅抢课一次，传递单个load以及cookie
 func SingleRob(cookie string, load string) string {
@@ -47,7 +46,7 @@ func SingleRob(cookie string, load string) string {
 	if resp.StatusCode != 200 {
 		log.Fatal("bad StatusCode:", resp.StatusCode, "body", string(bodyText))
 	}
-	var Response Response
+	var Response model.Response
 	err = json.Unmarshal(bodyText, &Response)
 	if err != nil {
 		log.Fatal(err)
