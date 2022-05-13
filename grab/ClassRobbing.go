@@ -2,7 +2,7 @@ package ClassGrabbing
 
 import (
 	"encoding/json"
-	"github.com/L2ncE/CQUPTClassGrabbing/model"
+	"github.com/L2ncE/CQUPT-ClassGrabbing/model"
 	"io"
 	"io/ioutil"
 	"log"
