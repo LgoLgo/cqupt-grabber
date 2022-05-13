@@ -85,8 +85,8 @@ func AllZiRan(cookie string) {
 	return
 }
 
-func Search(cookie string, content string) {
-	bodyText := Request("Rw", cookie)
+func Search(param string, cookie string, content string) {
+	bodyText := Request(param, cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
@@ -94,6 +94,7 @@ func Search(cookie string, content string) {
 	}
 	for _, item := range classInfo.Data {
 		if strings.Contains(item.Kcmc, content) {
+			fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
 			var builder strings.Builder
 			SRsLimit := strconv.Itoa(item.RsLimit)
 			SRwType := strconv.Itoa(item.RwType)
@@ -103,7 +104,7 @@ func Search(cookie string, content string) {
 				builder.WriteString(str)
 			}
 			load := builder.String()
-			fmt.Println(load)
+			log.Println(load)
 		}
 	}
 	return
