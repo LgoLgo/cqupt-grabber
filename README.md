@@ -74,15 +74,15 @@ func main() {
 
 在键盘上按下**F12**进入开发者工具并点击网络选项卡
 
-![image-20220513233644944](C:\Users\Yuan\AppData\Roaming\Typora\typora-user-images\image-20220513233644944.png)
+![image-20220513233644944](https://s2.loli.net/2022/05/13/sM4mAclvHnuyO2F.png)
 
 在键盘上按**F5**进行页面刷新后，网络视图同样会进行刷新，我们点击yxk.php后选择标头选项卡
 
-![image-20220513233828066](C:\Users\Yuan\AppData\Roaming\Typora\typora-user-images\image-20220513233828066.png)
+![image-20220513233828066](https://s2.loli.net/2022/05/13/gc8bBAzf1qwevUr.png)
 
 然后一直往下翻，就会找到**COOKIE**，将其复制下来即可
 
-![image-20220513233921962](C:\Users\Yuan\AppData\Roaming\Typora\typora-user-images\image-20220513233921962.png)
+![image-20220513233921962](https://s2.loli.net/2022/05/13/czhZMt2aL5U1wup.png)
 
 ### LOAD
 
@@ -90,7 +90,7 @@ func main() {
 
 重复和上面COOKIE的相同步骤到选课界面，在你想选择的课程旁边点击“+”号，查看网络选项卡会新增一个POST请求，将其负载选项卡中的源代码复制下来即可
 
-![image-20220513234236467](C:\Users\Yuan\AppData\Roaming\Typora\typora-user-images\image-20220513234236467.png)
+![image-20220513234236467](https://s2.loli.net/2022/05/13/H6xGfKPQ9d5aVeN.png)
 
 
 
