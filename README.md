@@ -150,4 +150,4 @@ func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ## 其他
 若还有其他疑问请提交issue，若想参与开发或有任何BUG欢迎提交commit
 
-联系我 [![Mail Badge](https://img.shields.io/badge/-llance_24@foxmail.com-c14438?style=flat&logo=Gmail&logoColor=white&link=mailto:llance_24@foxmail.com)]
+联系我 ![Mail Badge](https://img.shields.io/badge/-llance_24@foxmail.com-c14438?style=flat&logo=Gmail&logoColor=white&link=mailto:llance_24@foxmail.com)
