@@ -89,7 +89,8 @@ func AllZiRan(cookie string) {
 ```
 
 ```go
-//搜索课程load，param中传入Rw（人文）或Zr（自然），content为搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
+//搜索课程load，param中传入Rw（人文）或Zr（自然）
+//content为搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
 func Search(param string, cookie string, content string) {
 ...
 }
