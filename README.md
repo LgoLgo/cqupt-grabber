@@ -6,9 +6,6 @@
     - [特别声明](#特别声明)
     - [安装](#安装)
     - [快速开始](#快速开始)
-    - [COOKIE以及LOADS的获取教程](#COOKIE以及LOADS的获取教程)
-         - [COOKIE](#COOKIE)
-         - [LOAD](#LOAD)
     - [其余高级操作](#其余高级操作)
     - [其他](#其他)
 
@@ -66,61 +63,38 @@ func main() {
 	ClassGrabbing.LoopRob(cookie, loads)
 }
 ```
-其中cookie以及loads需要自己获取
 
-## COOKIE以及LOADS的获取教程
+**其中cookie以及loads需要自己获取**
 
-### COOKIE
-首先进入到[选课系统](http://xk1.cqupt.edu.cn/)中登录进入到选课详细界面
+**其中cookie以及loads需要自己获取**
 
-在键盘上按下**F12**进入开发者工具并点击网络选项卡
-
-![image-20220513233644944](https://s2.loli.net/2022/05/13/sM4mAclvHnuyO2F.png)
-
-在键盘上按**F5**进行页面刷新后，网络视图同样会进行刷新，我们点击yxk.php后选择标头选项卡
-
-![image-20220513233828066](https://s2.loli.net/2022/05/13/gc8bBAzf1qwevUr.png)
-
-然后一直往下翻，就会找到**COOKIE**，将其复制下来即可
-
-![image-20220513233921962](https://s2.loli.net/2022/05/13/czhZMt2aL5U1wup.png)
-
-### LOAD
-
-#### 方法一
-
-重复和上面COOKIE的相同步骤到选课界面，在你想选择的课程旁边点击“+”号，查看网络选项卡会新增一个POST请求，将其负载选项卡中的源代码复制下来即可
-
-![image-20220513234236467](https://s2.loli.net/2022/05/13/H6xGfKPQ9d5aVeN.png)
-
-
-
-#### 方法二
-
-我们的抢课工具中就已经封装了获取load的函数
-
-> 分别可以获取所有人文、自然选课的负载（会有课程相关的信息提示），除此以外还可以通过模糊搜索进行快速准确的查找
-
-```go
-package main
-
-import (
-	"github.com/L2ncE/CQUPT-ClassGrabbing/Query"
-)
-
-func main() {
-	cookie := "这里是一个cookie"
-	param := "Rw or Zr" //其中Rw为人文选修，Zr为自然选修
-	content := "你想模糊搜索的内容" //例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
-
-	Query.AllRenWen(cookie)
-	Query.AllZiRan(cookie)
-	Query.Search(param, cookie, content)
-}
-
-```
+**其中cookie以及loads需要自己获取**
 
 ## 其余高级操作
+
+```go
+//获得所有人文选修课loads
+func AllRenWen(cookie string) {
+...
+}
+...
+```
+
+```go
+//获得所有自然选修课loads
+func AllZiRan(cookie string) {
+...
+}
+...
+```
+
+```go
+//搜索课程load，param中传入Rw（人文）或Zr（自然），content为搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
+func Search(param string, cookie string, content string) {
+...
+}
+...
+```
 
 ```go
 //高并发抢课 会有被BAN风险
