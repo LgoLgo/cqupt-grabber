@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+// TODO: 使用接口来进行重构（在下一次选课之前完成）
+
 var wg sync.WaitGroup
 
 //SingleRob 仅抢课一次，传递单个load以及cookie
