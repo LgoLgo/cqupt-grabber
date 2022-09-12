@@ -1,3 +1,3 @@
-module github.com/L2ncE/CQUPT-ClassGrabbing
+module github.com/L2ncE/CQUPT-CourseSelection-Tool
 
 go 1.18

@@ -1,12 +1,12 @@
 # 重庆邮电大学抢课工具
 
 ## 目录
-- [重庆邮电大学抢课框架工具](#重庆邮电大学抢课框架)
+- [重庆邮电大学抢课框架工具](#重庆邮电大学抢课工具)
     - [目录](#目录)
     - [特别声明](#特别声明)
     - [安装](#安装)
     - [快速开始](#快速开始)
-    - [其余高级操作](#其余高级操作)
+    - [其余功能](#其余功能)
     - [其他](#其他)
 
 ## 特别声明
@@ -33,13 +33,13 @@
 
 1. 你需要Go的开发环境[Go](https://golang.org/)，然后您可以使用以下 Go 命令安装 Gin
 ```sh
-$ go get -u github.com/L2ncE/CQUPT-ClassGrabbing
+$ go get -u github.com/L2ncE/CQUPT-CourseSelection-Tool
 ```
 
 2. 在你的代码中import
 
 ```go
-import "github.com/L2ncE/CQUPT-ClassGrabbing"
+import "github.com/L2ncE/CQUPT-CourseSelection-Tool"
 ```
 
 
@@ -48,29 +48,25 @@ import "github.com/L2ncE/CQUPT-ClassGrabbing"
 ```go
 package main
 
-import (
-	"github.com/L2ncE/CQUPT-ClassGrabbing/ClassGrabbing"
-)
+import "github.com/L2ncE/CQUPT-CourseSelection-Tool/cqupt"
 
 func main() {
-	cookie := "这里是一个cookie"
-	
-	//支持同时抢多门课程
-	loads := []string{
-		"这里是第一节课",
-		"这里是第二节课"}
+  tool := cqupt.New()
 
-	ClassGrabbing.LoopRob(cookie, loads)
+  cookie := "这里是一个cookie"
+
+  //支持同时抢多门课程
+  loads := []string{
+    "这里是第一节课",
+    "这里是第二节课"}
+
+  tool.Grabber.LoopRob(cookie, loads)
 }
 ```
 
-**其中cookie以及loads需要自己获取**
+> 为防止工具滥用的可能性，cookie以及load需要自己获取
 
-**其中cookie以及loads需要自己获取**
-
-**其中cookie以及loads需要自己获取**
-
-## 其余高级操作
+## 其余功能
 
 ```go
 //获得所有人文选修课loads
@@ -123,6 +119,6 @@ func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ```
 
 ## 其他
-若还有其他疑问请提交issue，若想参与开发或有任何BUG欢迎提交commit
+若还有其他疑问请提交issue，若想参与开发或有任何BUG欢迎提交pr
 
 联系我 ![Mail Badge](https://img.shields.io/badge/-llance_24@foxmail.com-c14438?style=flat&logo=Gmail&logoColor=white&link=mailto:llance_24@foxmail.com)

@@ -1,9 +1,9 @@
-package Query
+package query
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/L2ncE/CQUPT-ClassGrabbing/model"
+	"github.com/L2ncE/CQUPT-CourseSelection-Tool/model"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -11,7 +11,10 @@ import (
 	"strings"
 )
 
-func Request(str string, cookie string) []byte {
+type Queryer struct {
+}
+
+func (q *Queryer) Request(str string, cookie string) []byte {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "http://xk1.cqupt.edu.cn/json-data-yxk.php?type=jcts"+str, nil)
 	if err != nil {
@@ -39,8 +42,8 @@ func Request(str string, cookie string) []byte {
 	return bodyText
 }
 
-func AllRenWen(cookie string) {
-	bodyText := Request("Rw", cookie)
+func (q *Queryer) AllRenWen(cookie string) {
+	bodyText := q.Request("Rw", cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
@@ -62,8 +65,8 @@ func AllRenWen(cookie string) {
 	return
 }
 
-func AllZiRan(cookie string) {
-	bodyText := Request("Zr", cookie)
+func (q *Queryer) AllZiRan(cookie string) {
+	bodyText := q.Request("Zr", cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
@@ -85,8 +88,8 @@ func AllZiRan(cookie string) {
 	return
 }
 
-func Search(param string, cookie string, content string) {
-	bodyText := Request(param, cookie)
+func (q *Queryer) Search(param string, cookie string, content string) {
+	bodyText := q.Request(param, cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {

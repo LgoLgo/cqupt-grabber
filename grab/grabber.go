@@ -1,8 +1,8 @@
-package ClassGrabbing
+package grab
 
 import (
 	"encoding/json"
-	"github.com/L2ncE/CQUPT-ClassGrabbing/model"
+	"github.com/L2ncE/CQUPT-CourseSelection-Tool/model"
 	"io"
 	"io/ioutil"
 	"log"
@@ -12,12 +12,14 @@ import (
 	"time"
 )
 
-// TODO: 使用接口来进行重构（在下一次选课之前完成）
+type Grabber struct {
+}
 
+// TODO: 将并发重构
 var wg sync.WaitGroup
 
 //SingleRob 仅抢课一次，传递单个load以及cookie
-func SingleRob(cookie string, load string) string {
+func (g *Grabber) SingleRob(cookie string, load string) string {
 	client := &http.Client{}
 	var data = strings.NewReader(load)
 	req, err := http.NewRequest("POST", "http://xk1.cqupt.edu.cn/post.php", data)
@@ -59,13 +61,13 @@ func SingleRob(cookie string, load string) string {
 	return Response.Info
 }
 
-func HighConcurrencySingleRob(cookie string, load string, j int) {
+func (g *Grabber) HighConcurrencySingleRob(cookie string, load string, j int) {
 	j += 1
 	log.Printf("协程%d开启\n", j)
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
 		//调用SingleRob进行循环抢课
-		info := SingleRob(cookie, load)
+		info := g.SingleRob(cookie, load)
 		if info == "ok" {
 			log.Printf(info)
 			wg.Done()
@@ -79,13 +81,13 @@ func HighConcurrencySingleRob(cookie string, load string, j int) {
 }
 
 //SingleRobWithInfo 仅抢课一次，传递单个load以及cookie，打印Info
-func SingleRobWithInfo(cookie string, load string) {
-	log.Printf(SingleRob(cookie, load))
+func (g *Grabber) SingleRobWithInfo(cookie string, load string) {
+	log.Printf(g.SingleRob(cookie, load))
 }
 
 //LoopRob 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban。
 //传入一个cookie和一个load切片
-func LoopRob(cookie string, loads []string) {
+func (g *Grabber) LoopRob(cookie string, loads []string) {
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
 		for j, load := range loads {
@@ -93,7 +95,7 @@ func LoopRob(cookie string, loads []string) {
 
 			//调用SingleRob进行循环抢课
 
-			info := SingleRob(cookie, load)
+			info := g.SingleRob(cookie, load)
 			if info == "ok" {
 				log.Printf("课程%d：%s\n", j, info)
 				goto ok
@@ -111,7 +113,7 @@ ok:
 
 // LoopRobWithCustomTime 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban。
 //传入一个cookie和一个load切片以及自定义时间
-func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
+func (g *Grabber) LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
@@ -120,7 +122,7 @@ func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 
 			//调用SingleRob进行循环抢课
 
-			info := SingleRob(cookie, load)
+			info := g.SingleRob(cookie, load)
 			if info == "ok" {
 				log.Printf("课程%d：%s\n", j, info)
 				goto ok
@@ -136,11 +138,11 @@ ok:
 	log.Println("抢课成功")
 }
 
-func LoopRobWithHighConcurrency(cookie string, loads []string) {
+func (g *Grabber) LoopRobWithHighConcurrency(cookie string, loads []string) {
 	wg.Add(1)
 	for i, load := range loads {
 		//调用SingleRob进行循环抢课
-		go HighConcurrencySingleRob(cookie, load, i)
+		go g.HighConcurrencySingleRob(cookie, load, i)
 	}
 	wg.Wait()
 	log.Println("抢课成功")
