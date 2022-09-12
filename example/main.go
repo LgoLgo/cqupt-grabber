@@ -1,6 +1,6 @@
 package main
 
-import "github.com/L2ncE/CQUPT-CourseSelection-Tool/cqupt"
+import "github.com/L2ncE/cqupt-course-tool/cqupt"
 
 func main() {
 	tool := cqupt.New()

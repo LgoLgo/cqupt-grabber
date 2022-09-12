@@ -2,7 +2,7 @@ package grab
 
 import (
 	"encoding/json"
-	"github.com/L2ncE/CQUPT-CourseSelection-Tool/model"
+	"github.com/L2ncE/cqupt-course-tool/model"
 	"io"
 	"io/ioutil"
 	"log"

@@ -1,8 +1,8 @@
 package cqupt
 
 import (
-	"github.com/L2ncE/CQUPT-CourseSelection-Tool/grab"
-	"github.com/L2ncE/CQUPT-CourseSelection-Tool/query"
+	"github.com/L2ncE/cqupt-course-tool/grab"
+	"github.com/L2ncE/cqupt-course-tool/query"
 )
 
 type Engine struct {
