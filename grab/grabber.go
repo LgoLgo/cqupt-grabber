@@ -61,25 +61,6 @@ func (g *Grabber) SingleRob(cookie string, load string) string {
 	return Response.Info
 }
 
-func (g *Grabber) highConcurrencySingleRob(cookie string, load string, j int) {
-	j += 1
-	log.Printf("协程%d开启\n", j)
-	for i := 1; ; i++ {
-		log.Printf("第%d次抢课开始", i)
-		//调用SingleRob进行循环抢课
-		info := g.SingleRob(cookie, load)
-		if info == "ok" {
-			log.Printf(info)
-			g.wg.Done()
-			return
-		} else {
-			log.Printf("课程%d：%s\n", j, info)
-		}
-		log.Printf("第%d次抢课失败\n\n", i)
-		time.Sleep(250 * time.Millisecond)
-	}
-}
-
 //SingleRobWithInfo 仅抢课一次，传递单个load以及cookie，打印Info
 func (g *Grabber) SingleRobWithInfo(cookie string, load string) {
 	log.Printf(g.SingleRob(cookie, load))
@@ -136,6 +117,25 @@ func (g *Grabber) LoopRobWithCustomTime(cookie string, loads []string, duration 
 	}
 ok:
 	log.Println("抢课成功")
+}
+
+func (g *Grabber) highConcurrencySingleRob(cookie string, load string, j int) {
+	j += 1
+	log.Printf("协程%d开启\n", j)
+	for i := 1; ; i++ {
+		log.Printf("第%d次抢课开始", i)
+		//调用SingleRob进行循环抢课
+		info := g.SingleRob(cookie, load)
+		if info == "ok" {
+			log.Printf(info)
+			g.wg.Done()
+			return
+		} else {
+			log.Printf("课程%d：%s\n", j, info)
+		}
+		log.Printf("第%d次抢课失败\n\n", i)
+		time.Sleep(250 * time.Millisecond)
+	}
 }
 
 // LoopRobWithHighConcurrency 高并发抢课
