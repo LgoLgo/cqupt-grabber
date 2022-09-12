@@ -13,10 +13,10 @@ import (
 )
 
 type Grabber struct {
+	wg sync.WaitGroup
 }
 
 // TODO: 将并发重构
-var wg sync.WaitGroup
 
 //SingleRob 仅抢课一次，传递单个load以及cookie
 func (g *Grabber) SingleRob(cookie string, load string) string {
@@ -61,7 +61,7 @@ func (g *Grabber) SingleRob(cookie string, load string) string {
 	return Response.Info
 }
 
-func (g *Grabber) HighConcurrencySingleRob(cookie string, load string, j int) {
+func (g *Grabber) highConcurrencySingleRob(cookie string, load string, j int) {
 	j += 1
 	log.Printf("协程%d开启\n", j)
 	for i := 1; ; i++ {
@@ -70,7 +70,7 @@ func (g *Grabber) HighConcurrencySingleRob(cookie string, load string, j int) {
 		info := g.SingleRob(cookie, load)
 		if info == "ok" {
 			log.Printf(info)
-			wg.Done()
+			g.wg.Done()
 			return
 		} else {
 			log.Printf("课程%d：%s\n", j, info)
@@ -111,8 +111,8 @@ ok:
 	log.Println("抢课成功")
 }
 
-// LoopRobWithCustomTime 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban。
-//传入一个cookie和一个load切片以及自定义时间
+// LoopRobWithCustomTime 循环抢课，支持多个课程同时抢，支持自定义时间。不建议使用。
+// 传入一个cookie和一个load切片以及自定义时间
 func (g *Grabber) LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 
 	for i := 1; ; i++ {
@@ -138,12 +138,13 @@ ok:
 	log.Println("抢课成功")
 }
 
+// LoopRobWithHighConcurrency 高并发抢课
 func (g *Grabber) LoopRobWithHighConcurrency(cookie string, loads []string) {
-	wg.Add(1)
+	g.wg.Add(1)
 	for i, load := range loads {
 		//调用SingleRob进行循环抢课
-		go g.HighConcurrencySingleRob(cookie, load, i)
+		go g.highConcurrencySingleRob(cookie, load, i)
 	}
-	wg.Wait()
+	g.wg.Wait()
 	log.Println("抢课成功")
 }
