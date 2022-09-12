@@ -14,7 +14,7 @@ import (
 type Queryer struct {
 }
 
-func (q *Queryer) Request(str string, cookie string) []byte {
+func request(str string, cookie string) []byte {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "http://xk1.cqupt.edu.cn/json-data-yxk.php?type=jcts"+str, nil)
 	if err != nil {
@@ -32,6 +32,7 @@ func (q *Queryer) Request(str string, cookie string) []byte {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
+
 	bodyText, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
@@ -43,53 +44,63 @@ func (q *Queryer) Request(str string, cookie string) []byte {
 }
 
 func (q *Queryer) AllRenWen(cookie string) {
-	bodyText := q.Request("Rw", cookie)
+	bodyText := request("Rw", cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
 		log.Fatal(err)
 	}
 	for _, item := range classInfo.Data {
-		fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
 		var builder strings.Builder
 		SRsLimit := strconv.Itoa(item.RsLimit)
 		SRwType := strconv.Itoa(item.RwType)
 
-		var strs = []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
+		var strs = []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc,
+			"&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=",
+			item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
+
 		for _, str := range strs {
 			builder.WriteString(str)
 		}
-		load := builder.String()
-		fmt.Println(load)
+		loads := builder.String()
+		err = ioutil.WriteFile("./output_renwen.txt", []byte(loads), 0666) //写入文件(字节数组)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
 	}
 	return
 }
 
 func (q *Queryer) AllZiRan(cookie string) {
-	bodyText := q.Request("Zr", cookie)
+	bodyText := request("Zr", cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
 		log.Fatal(err)
 	}
 	for _, item := range classInfo.Data {
-		fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
 		var builder strings.Builder
 		SRsLimit := strconv.Itoa(item.RsLimit)
 		SRwType := strconv.Itoa(item.RwType)
 
-		var strs = []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
+		var strs = []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=",
+			item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb,
+			"&kchtye=", item.KchType, "&memo=", item.Memo}
+
 		for _, str := range strs {
 			builder.WriteString(str)
 		}
-		load := builder.String()
-		fmt.Println(load)
+		loads := builder.String()
+		err = ioutil.WriteFile("./output_ziran.txt", []byte(loads), 0666) //写入文件(字节数组)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
 	}
 	return
 }
 
 func (q *Queryer) Search(param string, cookie string, content string) {
-	bodyText := q.Request(param, cookie)
+	bodyText := request(param, cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
