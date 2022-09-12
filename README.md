@@ -48,7 +48,7 @@ import "github.com/L2ncE/CQUPT-CourseSelection-Tool"
 ```go
 package main
 
-import "github.com/L2ncE/CQUPT-CourseSelection-Tool/cqupt"
+import "github.com/L2ncE/cqupt-course-tool/cqupt"
 
 func main() {
   tool := cqupt.New()
@@ -69,7 +69,7 @@ func main() {
 ## 其余功能
 
 ```go
-//获得所有人文选修课loads
+// 获得所有人文选修课loads
 func AllRenWen(cookie string) {
 ...
 }
@@ -77,7 +77,7 @@ func AllRenWen(cookie string) {
 ```
 
 ```go
-//获得所有自然选修课loads
+// 获得所有自然选修课loads
 func AllZiRan(cookie string) {
 ...
 }
@@ -85,8 +85,8 @@ func AllZiRan(cookie string) {
 ```
 
 ```go
-//搜索课程load，param中传入Rw（人文）或Zr（自然）
-//content为搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
+// 搜索课程load，param中传入Rw（人文）或Zr（自然）
+// content为模糊搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
 func Search(param string, cookie string, content string) {
 ...
 }
@@ -94,7 +94,7 @@ func Search(param string, cookie string, content string) {
 ```
 
 ```go
-//高并发抢课 会有被BAN风险
+// 高并发抢课 会有被BAN风险，**不推荐**使用
 func LoopRobWithHighConcurrency(cookie string, loads []string) {
 ...
 }
@@ -102,7 +102,7 @@ func LoopRobWithHighConcurrency(cookie string, loads []string) {
 ```
 
 ```go
-//只进行一次访问并传回响应
+// 只进行一次访问并传回响应
 func SingleRobWithInfo(cookie string, load string) {
 ...
 }
@@ -110,8 +110,8 @@ func SingleRobWithInfo(cookie string, load string) {
 ```
 
 ```go
-//自定义一次访问的速度
-//duration中为你想自定义的秒数，建议不小于0.2
+// 自定义一次访问的速度
+// duration中为你想自定义的秒数，建议不小于0.2
 func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ...
 }
