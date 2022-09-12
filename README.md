@@ -33,13 +33,13 @@
 
 1. 你需要Go的开发环境[Go](https://golang.org/)，然后您可以使用以下 Go 命令安装抢课工具
 ```sh
-$ go get -u github.com/L2ncE/CQUPT-CourseSelection-Tool
+$ go get -u github.com/L2ncE/cqupt-course-tool
 ```
 
 2. 在你的代码中import
 
 ```go
-import "github.com/L2ncE/CQUPT-CourseSelection-Tool"
+import "github.com/L2ncE/cqupt-course-tool"
 ```
 
 
