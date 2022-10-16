@@ -1,9 +1,9 @@
-# CQUPT抢课工具
+# Lgo-cqupt-grabber
 
 **不再维护**
 
 ## 目录
-- [CQUPT抢课工具](#CQUPT抢课工具)
+- [Lgo-cqupt-grabber](#Lgo-cqupt-grabber)
     - [目录](#目录)
     - [特别声明](#特别声明)
     - [安装](#安装)
@@ -38,7 +38,7 @@
 $ go get -u github.com/L2ncE/cqupt-course-tool
 ```
 
-2. 在你的代码中import
+2. 在你的代码中 import
 
 ```go
 import "github.com/L2ncE/cqupt-course-tool"
@@ -113,7 +113,7 @@ func SingleRobWithInfo(cookie string, load string) {
 
 ```go
 // 自定义一次访问的速度
-// duration中为你想自定义的秒数，建议不小于0.2
+// duration 中为你想自定义的秒数，建议不小于0.2
 func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ...
 }
@@ -121,6 +121,6 @@ func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ```
 
 ## 其他
-若还有其他疑问请提交issue，若想参与开发或有任何BUG欢迎提交pr
+若还有其他疑问请提交 issue ，若想参与开发或有任何 BUG 欢迎提交 PR 。
 
 联系我 ![Mail Badge](https://img.shields.io/badge/-llance_24@foxmail.com-c14438?style=flat&logo=Gmail&logoColor=white&link=mailto:llance_24@foxmail.com)
