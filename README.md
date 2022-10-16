@@ -35,13 +35,13 @@
 
 1. 你需要Go的开发环境[Go](https://golang.org/)，然后您可以使用以下 Go 命令安装抢课工具
 ```sh
-$ go get -u github.com/L2ncE/cqupt-course-tool
+$ go get -u github.com/LgoLgo/Lgo-cqupt-grabber
 ```
 
 2. 在你的代码中 import
 
 ```go
-import "github.com/L2ncE/cqupt-course-tool"
+import "github.com/LgoLgo/Lgo-cqupt-grabber"
 ```
 
 
@@ -50,7 +50,7 @@ import "github.com/L2ncE/cqupt-course-tool"
 ```go
 package main
 
-import "github.com/L2ncE/cqupt-course-tool/cqupt"
+import "github.com/LgoLgo/Lgo-cqupt-grabber/cqupt"
 
 func main() {
   tool := cqupt.New()

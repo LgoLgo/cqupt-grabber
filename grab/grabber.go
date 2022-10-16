@@ -2,7 +2,6 @@ package grab
 
 import (
 	"encoding/json"
-	"github.com/L2ncE/cqupt-course-tool/model"
 	"io"
 	"io/ioutil"
 	"log"
@@ -10,6 +9,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/LgoLgo/Lgo-cqupt-grabber/model"
 )
 
 type Grabber struct {

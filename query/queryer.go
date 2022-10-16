@@ -3,12 +3,13 @@ package query
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/L2ncE/cqupt-course-tool/model"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/LgoLgo/Lgo-cqupt-grabber/model"
 )
 
 type Queryer struct {

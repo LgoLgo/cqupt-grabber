@@ -1,3 +1,3 @@
-module github.com/L2ncE/cqupt-course-tool
+module github.com/LgoLgo/Lgo-cqupt-grabber
 
 go 1.18
