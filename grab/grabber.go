@@ -18,7 +18,7 @@ type Grabber struct {
 }
 
 // SingleRob 仅抢课一次，传递单个 load 以及 cookie
-func (g *Grabber) SingleRob(cookie string, load string) string {
+func (g *Grabber) SingleRob(cookie, load string) string {
 	client := &http.Client{}
 	var data = strings.NewReader(load)
 	req, err := http.NewRequest("POST", "http://xk1.cqupt.edu.cn/post.php", data)
@@ -61,7 +61,7 @@ func (g *Grabber) SingleRob(cookie string, load string) string {
 }
 
 // SingleRobWithInfo 仅抢课一次，传递单个 load 以及 cookie，打印 Info
-func (g *Grabber) SingleRobWithInfo(cookie string, load string) {
+func (g *Grabber) SingleRobWithInfo(cookie, load string) {
 	log.Printf(g.SingleRob(cookie, load))
 }
 
@@ -116,7 +116,7 @@ ok:
 	log.Println("抢课成功")
 }
 
-func (g *Grabber) highConcurrencySingleRob(cookie string, load string, j int) {
+func (g *Grabber) highConcurrencySingleRob(cookie, load string, j int) {
 	j += 1
 	log.Printf("协程%d开启\n", j)
 	for i := 1; ; i++ {

@@ -15,7 +15,7 @@ import (
 type Queryer struct {
 }
 
-func request(str string, cookie string) []byte {
+func request(str, cookie string) []byte {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "http://xk1.cqupt.edu.cn/json-data-yxk.php?type=jcts"+str, nil)
 	if err != nil {
@@ -100,7 +100,7 @@ func (q *Queryer) AllZiRan(cookie string) {
 	return
 }
 
-func (q *Queryer) Search(param string, cookie string, content string) {
+func (q *Queryer) Search(param, cookie, content string) {
 	bodyText := request(param, cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
