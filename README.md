@@ -1,9 +1,7 @@
-# Lgo-cqupt-grabber
-
-**不再维护**
+# cqupt-grabber
 
 ## 目录
-- [Lgo-cqupt-grabber](#Lgo-cqupt-grabber)
+- [cqupt-grabber](#cqupt-grabber)
     - [目录](#目录)
     - [特别声明](#特别声明)
     - [安装](#安装)
@@ -31,26 +29,23 @@
 
 ## 安装
 
-我将默认你已经拥有Go语言开发环境，如果你还没有可以去到[这个链接](https://blog.csdn.net/weixin_44621343/article/details/117792504)
-
-1. 你需要Go的开发环境[Go](https://golang.org/)，然后您可以使用以下 Go 命令安装抢课工具
+1. 你需要 Go 的开发环境 [Go](https://golang.org/) ，然后您可以使用以下 Go 命令安装抢课工具
 ```sh
-$ go get -u github.com/LgoLgo/Lgo-cqupt-grabber
+$ go get -u github.com/LgoLgo/cqupt-grabber
 ```
 
 2. 在你的代码中 import
 
 ```go
-import "github.com/LgoLgo/Lgo-cqupt-grabber"
+import "github.com/LgoLgo/cqupt-grabber"
 ```
 
-
 ## 快速开始
-使用包中的LoopRob，0.25s进行一次抢课，直到有一门课被抢到
+使用包中的 LoopRob ， 0.25s 进行一次抢课，直到有一门课被抢到
 ```go
 package main
 
-import "github.com/LgoLgo/Lgo-cqupt-grabber/cqupt"
+import "github.com/LgoLgo/cqupt-grabber/cqupt"
 
 func main() {
   tool := cqupt.New()
@@ -66,12 +61,12 @@ func main() {
 }
 ```
 
-> 为防止工具滥用的可能性，cookie以及load需要自己获取
+> 为防止工具滥用的可能性， cookie 以及 load 需要自己获取
 
 ## 其余功能
 
 ```go
-// 获得所有人文选修课loads
+// 获得所有人文选修课 loads
 func AllRenWen(cookie string) {
 ...
 }
@@ -79,7 +74,7 @@ func AllRenWen(cookie string) {
 ```
 
 ```go
-// 获得所有自然选修课loads
+// 获得所有自然选修课 loads
 func AllZiRan(cookie string) {
 ...
 }
@@ -87,8 +82,8 @@ func AllZiRan(cookie string) {
 ```
 
 ```go
-// 搜索课程load，param中传入Rw（人文）或Zr（自然）
-// content为模糊搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
+// 搜索课程 load ， param 中传入 Rw （人文）或 Zr （自然）
+// content 为模糊搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
 func Search(param string, cookie string, content string) {
 ...
 }
@@ -96,7 +91,7 @@ func Search(param string, cookie string, content string) {
 ```
 
 ```go
-// 高并发抢课 会有被BAN风险，**不推荐**使用
+// 高并发抢课 会有被 BAN 风险，**不推荐**使用
 func LoopRobWithHighConcurrency(cookie string, loads []string) {
 ...
 }
@@ -123,4 +118,5 @@ func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ## 其他
 若还有其他疑问请提交 issue ，若想参与开发或有任何 BUG 欢迎提交 PR 。
 
-联系我 ![Mail Badge](https://img.shields.io/badge/-llance_24@foxmail.com-c14438?style=flat&logo=Gmail&logoColor=white&link=mailto:llance_24@foxmail.com)
+## 许可证
+此项目开源在 Apache License 2.0 下。有关完整的许可证文本，请参阅许可证文件。

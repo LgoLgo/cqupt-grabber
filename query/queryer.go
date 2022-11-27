@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/LgoLgo/Lgo-cqupt-grabber/model"
+	"github.com/LgoLgo/cqupt-grabber/model"
 )
 
 type Queryer struct {

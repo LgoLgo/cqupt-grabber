@@ -1,8 +1,8 @@
 package cqupt
 
 import (
-	"github.com/LgoLgo/Lgo-cqupt-grabber/grab"
-	"github.com/LgoLgo/Lgo-cqupt-grabber/query"
+	"github.com/LgoLgo/cqupt-grabber/grab"
+	"github.com/LgoLgo/cqupt-grabber/query"
 )
 
 type Engine struct {

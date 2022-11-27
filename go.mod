@@ -1,3 +1,3 @@
-module github.com/LgoLgo/Lgo-cqupt-grabber
+module github.com/LgoLgo/cqupt-grabber
 
 go 1.18

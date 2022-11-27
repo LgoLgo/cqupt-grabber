@@ -10,16 +10,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/LgoLgo/Lgo-cqupt-grabber/model"
+	"github.com/LgoLgo/cqupt-grabber/model"
 )
 
 type Grabber struct {
 	wg sync.WaitGroup
 }
 
-// TODO: 将并发重构
-
-//SingleRob 仅抢课一次，传递单个load以及cookie
+// SingleRob 仅抢课一次，传递单个 load 以及 cookie
 func (g *Grabber) SingleRob(cookie string, load string) string {
 	client := &http.Client{}
 	var data = strings.NewReader(load)
@@ -62,13 +60,13 @@ func (g *Grabber) SingleRob(cookie string, load string) string {
 	return Response.Info
 }
 
-//SingleRobWithInfo 仅抢课一次，传递单个load以及cookie，打印Info
+// SingleRobWithInfo 仅抢课一次，传递单个 load 以及 cookie，打印 Info
 func (g *Grabber) SingleRobWithInfo(cookie string, load string) {
 	log.Printf(g.SingleRob(cookie, load))
 }
 
-//LoopRob 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban。
-//传入一个cookie和一个load切片
+// LoopRob 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban
+// 传入一个 cookie 和一个 load 切片
 func (g *Grabber) LoopRob(cookie string, loads []string) {
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
@@ -93,17 +91,15 @@ ok:
 	log.Println("抢课成功")
 }
 
-// LoopRobWithCustomTime 循环抢课，支持多个课程同时抢，支持自定义时间。不建议使用。
-// 传入一个cookie和一个load切片以及自定义时间
+// LoopRobWithCustomTime 循环抢课，支持多个课程同时抢，支持自定义时间。不建议使用
+// 传入一个 cookie 和一个 load 切片以及自定义时间
 func (g *Grabber) LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
 		for j, load := range loads {
 			j += 1
-
 			//调用SingleRob进行循环抢课
-
 			info := g.SingleRob(cookie, load)
 			if info == "ok" {
 				log.Printf("课程%d：%s\n", j, info)
@@ -125,7 +121,7 @@ func (g *Grabber) highConcurrencySingleRob(cookie string, load string, j int) {
 	log.Printf("协程%d开启\n", j)
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
-		//调用SingleRob进行循环抢课
+		// 调用SingleRob进行循环抢课
 		info := g.SingleRob(cookie, load)
 		if info == "ok" {
 			log.Printf(info)
@@ -141,9 +137,9 @@ func (g *Grabber) highConcurrencySingleRob(cookie string, load string, j int) {
 
 // LoopRobWithHighConcurrency 高并发抢课
 func (g *Grabber) LoopRobWithHighConcurrency(cookie string, loads []string) {
-	g.wg.Add(1)
 	for i, load := range loads {
-		//调用SingleRob进行循环抢课
+		g.wg.Add(1)
+		// 调用SingleRob进行循环抢课
 		go g.highConcurrencySingleRob(cookie, load, i)
 	}
 	g.wg.Wait()
