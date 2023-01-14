@@ -20,7 +20,7 @@ type Grabber struct {
 // SingleRob 仅抢课一次，传递单个 load 以及 cookie
 func (g *Grabber) SingleRob(cookie, load string) string {
 	client := &http.Client{}
-	var data = strings.NewReader(load)
+	data := strings.NewReader(load)
 	req, err := http.NewRequest("POST", "http://xk1.cqupt.edu.cn/post.php", data)
 	if err != nil {
 		log.Fatal(err)
@@ -73,7 +73,7 @@ func (g *Grabber) LoopRob(cookie string, loads []string) {
 		for j, load := range loads {
 			j += 1
 
-			//调用SingleRob进行循环抢课
+			// 调用SingleRob进行循环抢课
 
 			info := g.SingleRob(cookie, load)
 			if info == "ok" {
@@ -94,12 +94,11 @@ ok:
 // LoopRobWithCustomTime 循环抢课，支持多个课程同时抢，支持自定义时间。不建议使用
 // 传入一个 cookie 和一个 load 切片以及自定义时间
 func (g *Grabber) LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
-
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
 		for j, load := range loads {
 			j += 1
-			//调用SingleRob进行循环抢课
+			// 调用SingleRob进行循环抢课
 			info := g.SingleRob(cookie, load)
 			if info == "ok" {
 				log.Printf("课程%d：%s\n", j, info)

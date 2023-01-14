@@ -12,8 +12,7 @@ import (
 	"github.com/LgoLgo/cqupt-grabber/model"
 )
 
-type Queryer struct {
-}
+type Queryer struct{}
 
 func request(str, cookie string) []byte {
 	client := &http.Client{}
@@ -56,15 +55,17 @@ func (q *Queryer) AllRenWen(cookie string) {
 		SRsLimit := strconv.Itoa(item.RsLimit)
 		SRwType := strconv.Itoa(item.RwType)
 
-		var strs = []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc,
+		strs := []string{
+			"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc,
 			"&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=",
-			item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
+			item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo,
+		}
 
 		for _, str := range strs {
 			builder.WriteString(str)
 		}
 		loads := builder.String()
-		err = ioutil.WriteFile("./output_renwen.txt", []byte(loads), 0666) //写入文件(字节数组)
+		err = ioutil.WriteFile("./output_renwen.txt", []byte(loads), 0o666) // 写入文件(字节数组)
 		if err != nil {
 			log.Fatal(err.Error())
 		}
@@ -84,15 +85,17 @@ func (q *Queryer) AllZiRan(cookie string) {
 		SRsLimit := strconv.Itoa(item.RsLimit)
 		SRwType := strconv.Itoa(item.RwType)
 
-		var strs = []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=",
+		strs := []string{
+			"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=",
 			item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb,
-			"&kchtye=", item.KchType, "&memo=", item.Memo}
+			"&kchtye=", item.KchType, "&memo=", item.Memo,
+		}
 
 		for _, str := range strs {
 			builder.WriteString(str)
 		}
 		loads := builder.String()
-		err = ioutil.WriteFile("./output_ziran.txt", []byte(loads), 0666) //写入文件(字节数组)
+		err = ioutil.WriteFile("./output_ziran.txt", []byte(loads), 0o666) // 写入文件(字节数组)
 		if err != nil {
 			log.Fatal(err.Error())
 		}
@@ -114,7 +117,7 @@ func (q *Queryer) Search(param, cookie, content string) {
 			SRsLimit := strconv.Itoa(item.RsLimit)
 			SRwType := strconv.Itoa(item.RwType)
 
-			var strs = []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
+			strs := []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
 			for _, str := range strs {
 				builder.WriteString(str)
 			}
