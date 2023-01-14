@@ -29,9 +29,3 @@ Please check your PR title with the below requirements:
 <!--
 Provide more detailed info for review. If it is a perf type PR, perf data is suggested to give.
 -->
-
-#### Which issue(s) this PR fixes:
-<!--
-Automatically closes linked issue when PR is merged.
-Eg: `Fixes #<issue number>`, or `Fixes (paste link of issue)`.
--->

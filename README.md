@@ -1,4 +1,4 @@
-# cqupt-grabber
+![cqupt-grabber](img/cqupt-grabber.png)
 
 ## 目录
 - [cqupt-grabber](#cqupt-grabber)
