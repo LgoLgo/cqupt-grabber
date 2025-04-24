@@ -70,7 +70,6 @@ func main() {
 func AllRenWen(cookie string) {
 ...
 }
-...
 ```
 
 ```go
@@ -95,7 +94,6 @@ func AllForeign(cookie string) {
 func Search(cookie string, content []string) {
 ...
 }
-...
 ```
 
 ```go
@@ -103,7 +101,6 @@ func Search(cookie string, content []string) {
 func LoopRobWithHighConcurrency(cookie string, loads []string) {
 ...
 }
-...
 ```
 
 ```go
@@ -111,7 +108,6 @@ func LoopRobWithHighConcurrency(cookie string, loads []string) {
 func SingleRobWithInfo(cookie string, load string) {
 ...
 }
-...
 ```
 
 ```go
@@ -120,7 +116,6 @@ func SingleRobWithInfo(cookie string, load string) {
 func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ...
 }
-...
 ```
 
 ## 其他
