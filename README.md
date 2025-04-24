@@ -78,11 +78,13 @@ func AllRenWen(cookie string) {
 func AllZiRan(cookie string) {
 ...
 }
-...
-···go
+```
+
+```go
 // 获取所有外语选修课 loads
-func AllForeign(cookie string)
-···
+func AllForeign(cookie string) {
+...
+}
 ```
 
 ```go
