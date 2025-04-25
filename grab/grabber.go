@@ -3,7 +3,6 @@ package grab
 import (
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -45,7 +44,7 @@ func (g *Grabber) SingleRob(cookie, load string) string {
 			return
 		}
 	}(resp.Body)
-	bodyText, err := ioutil.ReadAll(resp.Body)
+	bodyText, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}

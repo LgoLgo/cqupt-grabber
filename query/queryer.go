@@ -54,29 +54,8 @@ func request(str, cookie string) []byte {
 
 func (q *Queryer) AllRenWen(cookie string) {
 	bodyText := request(options[RenWen], cookie)
-	var classInfo model.ClassInfos
-	err := json.Unmarshal(bodyText, &classInfo)
-	if err != nil {
-		log.Fatal(err)
-	}
-	var builder strings.Builder
-	for _, item := range classInfo.Data {
-		SRsLimit := strconv.Itoa(item.RsLimit)
-		SRwType := strconv.Itoa(item.RwType)
-
-		strs := []string{
-			"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc,
-			"&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=",
-			item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo,
-		}
-
-		for _, str := range strs {
-			builder.WriteString(str)
-		}
-		builder.WriteString("\n")
-	}
-	loads := builder.String()
-	err = os.WriteFile("./output_renwen.txt", []byte(loads), 0o666) // 写入文件(字节数组)
+	loads := prepareFile(bodyText)
+	err := os.WriteFile("./output_renwen.txt", []byte(loads), 0o666) // 写入文件(字节数组)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -85,6 +64,25 @@ func (q *Queryer) AllRenWen(cookie string) {
 
 func (q *Queryer) AllZiRan(cookie string) {
 	bodyText := request(options[ZiRan], cookie)
+	loads := prepareFile(bodyText)
+	err := os.WriteFile("./output_ziran.txt", []byte(loads), 0o666) // 写入文件(字节数组)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	return
+}
+
+func (q *Queryer) AllForeign(cookie string) {
+	bodyText := request(options[Foreign], cookie)
+	loads := prepareFile(bodyText)
+	err := os.WriteFile("./output_foreign.txt", []byte(loads), 0o666) // 写入文件(字节数组)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	return
+}
+
+func prepareFile(bodyText []byte) (loads string) {
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
@@ -106,11 +104,7 @@ func (q *Queryer) AllZiRan(cookie string) {
 		}
 		builder.WriteString("\n")
 	}
-	loads := builder.String()
-	err = os.WriteFile("./output_ziran.txt", []byte(loads), 0o666) // 写入文件(字节数组)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	loads = builder.String()
 	return
 }
 
@@ -123,49 +117,8 @@ func (q *Queryer) Search(param, cookie, content string) {
 	}
 	for _, item := range classInfo.Data {
 		if strings.Contains(item.Kcmc, content) {
-			fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
-			var builder strings.Builder
-			SRsLimit := strconv.Itoa(item.RsLimit)
-			SRwType := strconv.Itoa(item.RwType)
-
-			strs := []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
-			for _, str := range strs {
-				builder.WriteString(str)
-			}
-			load := builder.String()
-			log.Println(load)
+			solveData(item)
 		}
-	}
-	return
-}
-
-func (q *Queryer) AllForeign(cookie string) {
-	bodyText := request(options[Foreign], cookie)
-	var classInfo model.ClassInfos
-	err := json.Unmarshal(bodyText, &classInfo)
-	if err != nil {
-		log.Fatal(err)
-	}
-	var builder strings.Builder
-	for _, item := range classInfo.Data {
-		SRsLimit := strconv.Itoa(item.RsLimit)
-		SRwType := strconv.Itoa(item.RwType)
-
-		strs := []string{
-			"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=",
-			item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb,
-			"&kchtye=", item.KchType, "&memo=", item.Memo,
-		}
-
-		for _, str := range strs {
-			builder.WriteString(str)
-		}
-		builder.WriteString("\n")
-	}
-	loads := builder.String()
-	err = os.WriteFile("./output_foreign.txt", []byte(loads), 0o666) // 写入文件(字节数组)
-	if err != nil {
-		log.Fatal(err.Error())
 	}
 	return
 }
@@ -180,27 +133,36 @@ func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string)
 			log.Fatal(err)
 		}
 		for _, item := range classInfo.Data {
-			flag := true
-			for _, str := range content {
-				if !strings.Contains(fmt.Sprintln(item), str) {
-					flag = false
-				}
-			}
-			if flag {
-				fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
-				var builder strings.Builder
-				SRsLimit := strconv.Itoa(item.RsLimit)
-				SRwType := strconv.Itoa(item.RwType)
-
-				strs := []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
-				for _, str := range strs {
-					builder.WriteString(str)
-				}
-				load := builder.String()
+			if confirmContain(item, content) {
+				load := solveData(item)
 				loads = append(loads, load)
-				log.Println(load)
 			}
 		}
 	}
-	return loads
+	return
+}
+
+func confirmContain(data model.Data, content []string) bool {
+	for _, str := range content {
+		if !strings.Contains(fmt.Sprintln(data), str) {
+			return false
+		}
+	}
+	return true
+}
+
+// 处理数据
+func solveData(item model.Data) (load string) {
+	fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
+	var builder strings.Builder
+	SRsLimit := strconv.Itoa(item.RsLimit)
+	SRwType := strconv.Itoa(item.RwType)
+
+	strs := []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
+	for _, str := range strs {
+		builder.WriteString(str)
+	}
+	load = builder.String()
+	log.Println(load)
+	return
 }
