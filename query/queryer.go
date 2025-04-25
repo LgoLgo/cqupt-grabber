@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/LgoLgo/cqupt-grabber/model"
 )
@@ -127,6 +128,7 @@ func (q *Queryer) Search(param, cookie, content string) {
 func (q *Queryer) BlockSearch(cookie string, contents []string) (loads []string) {
 	for loads == nil {
 		loads = q.SimpleSearch(cookie, contents)
+		time.Sleep(250 * time.Millisecond)
 	}
 	return
 }
