@@ -70,7 +70,6 @@ func main() {
 func AllRenWen(cookie string) {
 ...
 }
-...
 ```
 
 ```go
@@ -78,16 +77,36 @@ func AllRenWen(cookie string) {
 func AllZiRan(cookie string) {
 ...
 }
-...
 ```
 
 ```go
-// 搜索课程 load ， param 中传入 Rw （人文）或 Zr （自然）
+// 获取所有外语选修课 loads
+func AllForeign(cookie string) {
+...
+}
+```
+
+```go
+// 搜索课程 load , param 中传入 jctsRw (人文) / jctsZr (自然) 或 yyxx (英语)
 // content 为模糊搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
 func Search(param string, cookie string, content string) {
 ...
 }
+```
+
+```go
+// 非阻塞地简易搜索, 传入关键字切片, 返回 loads, 可直接作为 loads 传入抢课方法中, 如果没拿到 loads
+// 会直接返回.
+func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string) {
 ...
+}
+```
+
+```go
+// 阻塞式搜索课程, 直到搜索到课程才会返回.
+func (q *Queryer) BlockSearch(cookie string, contents []string) (loads []string) {
+...
+}
 ```
 
 ```go
@@ -95,7 +114,6 @@ func Search(param string, cookie string, content string) {
 func LoopRobWithHighConcurrency(cookie string, loads []string) {
 ...
 }
-...
 ```
 
 ```go
@@ -103,7 +121,6 @@ func LoopRobWithHighConcurrency(cookie string, loads []string) {
 func SingleRobWithInfo(cookie string, load string) {
 ...
 }
-...
 ```
 
 ```go
@@ -112,7 +129,6 @@ func SingleRobWithInfo(cookie string, load string) {
 func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ...
 }
-...
 ```
 
 ## 其他

@@ -3,20 +3,30 @@ package query
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/LgoLgo/cqupt-grabber/model"
 )
+
+const (
+	ZiRan   = 0
+	RenWen  = 1
+	Foreign = 2
+)
+
+var options = []string{"jctsZr", "jctsRw", "yyxx"}
 
 type Queryer struct{}
 
 func request(str, cookie string) []byte {
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", "http://xk1.cqupt.edu.cn/json-data-yxk.php?type=jcts"+str, nil)
+	req, err := http.NewRequest("GET", "http://xk1.cqupt.edu.cn/json-data-yxk.php?type="+str, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,7 +43,7 @@ func request(str, cookie string) []byte {
 	}
 	defer resp.Body.Close()
 
-	bodyText, err := ioutil.ReadAll(resp.Body)
+	bodyText, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,30 +54,9 @@ func request(str, cookie string) []byte {
 }
 
 func (q *Queryer) AllRenWen(cookie string) {
-	bodyText := request("Rw", cookie)
-	var classInfo model.ClassInfos
-	err := json.Unmarshal(bodyText, &classInfo)
-	if err != nil {
-		log.Fatal(err)
-	}
-	var builder strings.Builder
-	for _, item := range classInfo.Data {
-		SRsLimit := strconv.Itoa(item.RsLimit)
-		SRwType := strconv.Itoa(item.RwType)
-
-		strs := []string{
-			"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc,
-			"&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=",
-			item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo,
-		}
-
-		for _, str := range strs {
-			builder.WriteString(str)
-		}
-		builder.WriteString("\n")
-	}
-	loads := builder.String()
-	err = ioutil.WriteFile("./output_renwen.txt", []byte(loads), 0o666) // 写入文件(字节数组)
+	bodyText := request(options[RenWen], cookie)
+	loads := prepareFile(bodyText)
+	err := os.WriteFile("./output_renwen.txt", []byte(loads), 0o666) // 写入文件(字节数组)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -75,7 +64,26 @@ func (q *Queryer) AllRenWen(cookie string) {
 }
 
 func (q *Queryer) AllZiRan(cookie string) {
-	bodyText := request("Zr", cookie)
+	bodyText := request(options[ZiRan], cookie)
+	loads := prepareFile(bodyText)
+	err := os.WriteFile("./output_ziran.txt", []byte(loads), 0o666) // 写入文件(字节数组)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	return
+}
+
+func (q *Queryer) AllForeign(cookie string) {
+	bodyText := request(options[Foreign], cookie)
+	loads := prepareFile(bodyText)
+	err := os.WriteFile("./output_foreign.txt", []byte(loads), 0o666) // 写入文件(字节数组)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	return
+}
+
+func prepareFile(bodyText []byte) (loads string) {
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
@@ -97,11 +105,7 @@ func (q *Queryer) AllZiRan(cookie string) {
 		}
 		builder.WriteString("\n")
 	}
-	loads := builder.String()
-	err = ioutil.WriteFile("./output_ziran.txt", []byte(loads), 0o666) // 写入文件(字节数组)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	loads = builder.String()
 	return
 }
 
@@ -114,18 +118,61 @@ func (q *Queryer) Search(param, cookie, content string) {
 	}
 	for _, item := range classInfo.Data {
 		if strings.Contains(item.Kcmc, content) {
-			fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
-			var builder strings.Builder
-			SRsLimit := strconv.Itoa(item.RsLimit)
-			SRwType := strconv.Itoa(item.RwType)
-
-			strs := []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
-			for _, str := range strs {
-				builder.WriteString(str)
-			}
-			load := builder.String()
-			log.Println(load)
+			solveData(item)
 		}
 	}
+	return
+}
+
+// BlockSearch 阻塞式搜索，直到loads搜索到才会返回
+func (q *Queryer) BlockSearch(cookie string, contents []string) (loads []string) {
+	for loads == nil {
+		loads = q.SimpleSearch(cookie, contents)
+		time.Sleep(250 * time.Millisecond)
+	}
+	return
+}
+
+// SimpleSearch 传入需要被搜索的 key 关键字切片，返回 loads
+func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string) {
+	for _, option := range options {
+		bodyText := request(option, cookie)
+		var classInfo model.ClassInfos
+		err := json.Unmarshal(bodyText, &classInfo)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for _, item := range classInfo.Data {
+			if confirmContain(item, content) {
+				load := solveData(item)
+				loads = append(loads, load)
+			}
+		}
+	}
+	return
+}
+
+func confirmContain(data model.MetaData, content []string) bool {
+	for _, str := range content {
+		if !strings.Contains(fmt.Sprintln(data), str) {
+			return false
+		}
+	}
+	return true
+}
+
+// 处理数据
+func solveData(item model.MetaData) (load string) {
+	fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
+	var builder strings.Builder
+	SRsLimit := strconv.Itoa(item.RsLimit)
+	SRwType := strconv.Itoa(item.RwType)
+
+	strs := []string{"xnxq=", item.Xnxq, "&jxb=", item.Jxb, "&kchb=", item.Kcbh, "&kcmc=", item.Kcmc, "&xf=", item.Xf, "&teaname=", item.TeaName, "&rslimit=", SRsLimit, "&rwtype=", SRwType, "&kclb=", item.Kclb, "&kchtye=", item.KchType, "&memo=", item.Memo}
+	for _, str := range strs {
+		builder.WriteString(str)
+	}
+	load = builder.String()
+	log.Println(load)
 	return
 }
