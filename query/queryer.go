@@ -142,7 +142,7 @@ func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string)
 	return
 }
 
-func confirmContain(data model.Data, content []string) bool {
+func confirmContain(data model.MetaData, content []string) bool {
 	for _, str := range content {
 		if !strings.Contains(fmt.Sprintln(data), str) {
 			return false
@@ -152,7 +152,7 @@ func confirmContain(data model.Data, content []string) bool {
 }
 
 // 处理数据
-func solveData(item model.Data) (load string) {
+func solveData(item model.MetaData) (load string) {
 	fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
 	var builder strings.Builder
 	SRsLimit := strconv.Itoa(item.RsLimit)

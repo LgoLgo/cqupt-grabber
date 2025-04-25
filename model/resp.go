@@ -6,12 +6,12 @@ type Response struct {
 }
 
 type ClassInfos struct {
-	Code int    `json:"code"`
-	Info string `json:"info"`
-	Data []Data `json:"data"`
+	Code int        `json:"code"`
+	Info string     `json:"info"`
+	Data []MetaData `json:"data"`
 }
 
-type Data struct {
+type MetaData struct {
 	Xnxq    string `json:"xnxq"`
 	Jxb     string `json:"jxb"`
 	Kcbh    string `json:"kcbh"`
