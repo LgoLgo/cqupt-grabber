@@ -123,7 +123,7 @@ func (q *Queryer) Search(param, cookie, content string) {
 	return
 }
 
-// SimpleSearch 传入需要被搜索的key关键字切片，返回loads
+// SimpleSearch 传入需要被搜索的 key 关键字切片，返回 loads
 func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string) {
 	for _, option := range options {
 		bodyText := request(option, cookie)
