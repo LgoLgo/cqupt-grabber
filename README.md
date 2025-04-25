@@ -95,7 +95,7 @@ func Search(param string, cookie string, content string) {
 ```
 
 ```go
-// 简易搜索, 传入关键字切片, 返回 loads, 可直接作为loads传入抢课方法中. 
+// 简易搜索, 传入关键字切片, 返回 loads, 可直接作为 loads 传入抢课方法中. 
 func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string) {
 ...
 }
