@@ -123,6 +123,14 @@ func (q *Queryer) Search(param, cookie, content string) {
 	return
 }
 
+// BlockSearch 阻塞式搜索，直到loads搜索到才会返回
+func (q *Queryer) BlockSearch(cookie string, contents []string) (loads []string) {
+	for loads == nil {
+		loads = q.SimpleSearch(cookie, contents)
+	}
+	return
+}
+
 // SimpleSearch 传入需要被搜索的 key 关键字切片，返回 loads
 func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string) {
 	for _, option := range options {

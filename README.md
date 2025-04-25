@@ -95,8 +95,16 @@ func Search(param string, cookie string, content string) {
 ```
 
 ```go
-// 简易搜索, 传入关键字切片, 返回 loads, 可直接作为 loads 传入抢课方法中. 
+// 非阻塞地简易搜索, 传入关键字切片, 返回 loads, 可直接作为 loads 传入抢课方法中, 如果没拿到 loads
+// 会直接返回.
 func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string) {
+...
+}
+```
+
+```go
+// 阻塞式搜索课程, 直到搜索到课程才会返回.
+func (q *Queryer) BlockSearch(cookie string, contents []string) (loads []string) {
 ...
 }
 ```
