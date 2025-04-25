@@ -87,7 +87,7 @@ func AllForeign(cookie string) {
 ```
 
 ```go
-// 搜索课程 load , param 中传入 Rw （人文）或 Zr （自然）
+// 搜索课程 load , param 中传入 jctsRw (人文) / jctsZr (自然) 或 yyxx (英语)
 // content 为模糊搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
 func Search(param string, cookie string, content string) {
 ...
