@@ -31,13 +31,13 @@
 
 1. 你需要 Go 的开发环境 [Go](https://golang.org/) ，然后您可以使用以下 Go 命令安装抢课工具
 ```sh
-$ go get -u github.com/LgoLgo/cqupt-grabber
+$ go get -u github.com/LgoLgo/cqupt-grabber@main
 ```
 
 2. 在你的代码中 import
 
 ```go
-import "github.com/LgoLgo/cqupt-grabber"
+import "github.com/LgoLgo/cqupt-grabber/cqupt"
 ```
 
 ## 快速开始
