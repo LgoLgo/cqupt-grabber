@@ -3,14 +3,23 @@ package query
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 
 	"github.com/LgoLgo/cqupt-grabber/model"
 )
+
+const (
+	ZiRan   = 0
+	RenWen  = 1
+	Foreign = 2
+)
+
+var options = []string{"jctsZr", "jctsRw", "yyxx"}
 
 type Queryer struct{}
 
@@ -33,7 +42,7 @@ func request(str, cookie string) []byte {
 	}
 	defer resp.Body.Close()
 
-	bodyText, err := ioutil.ReadAll(resp.Body)
+	bodyText, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,7 +53,7 @@ func request(str, cookie string) []byte {
 }
 
 func (q *Queryer) AllRenWen(cookie string) {
-	bodyText := request("jctsRw", cookie)
+	bodyText := request(options[RenWen], cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
@@ -67,7 +76,7 @@ func (q *Queryer) AllRenWen(cookie string) {
 		builder.WriteString("\n")
 	}
 	loads := builder.String()
-	err = ioutil.WriteFile("./output_renwen.txt", []byte(loads), 0o666) // 写入文件(字节数组)
+	err = os.WriteFile("./output_renwen.txt", []byte(loads), 0o666) // 写入文件(字节数组)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -75,7 +84,7 @@ func (q *Queryer) AllRenWen(cookie string) {
 }
 
 func (q *Queryer) AllZiRan(cookie string) {
-	bodyText := request("jctsZr", cookie)
+	bodyText := request(options[ZiRan], cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
@@ -98,16 +107,14 @@ func (q *Queryer) AllZiRan(cookie string) {
 		builder.WriteString("\n")
 	}
 	loads := builder.String()
-	err = ioutil.WriteFile("./output_ziran.txt", []byte(loads), 0o666) // 写入文件(字节数组)
+	err = os.WriteFile("./output_ziran.txt", []byte(loads), 0o666) // 写入文件(字节数组)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 	return
 }
 
-func (q *Queryer) Search(cookie string, content []string) {
-	options := []string{"jctsZr", "jctsRw", "yyxx"}
-
+func (q *Queryer) Search(cookie string, content []string) (loads []string) {
 	for _, option := range options {
 		bodyText := request(option, cookie)
 		var classInfo model.ClassInfos
@@ -133,15 +140,16 @@ func (q *Queryer) Search(cookie string, content []string) {
 					builder.WriteString(str)
 				}
 				load := builder.String()
+				loads = append(loads, load)
 				log.Println(load)
 			}
 		}
 	}
-	return
+	return loads
 }
 
 func (q *Queryer) AllForeign(cookie string) {
-	bodyText := request("yyxx", cookie)
+	bodyText := request(options[Foreign], cookie)
 	var classInfo model.ClassInfos
 	err := json.Unmarshal(bodyText, &classInfo)
 	if err != nil {
@@ -164,7 +172,7 @@ func (q *Queryer) AllForeign(cookie string) {
 		builder.WriteString("\n")
 	}
 	loads := builder.String()
-	err = ioutil.WriteFile("./output_foreign.txt", []byte(loads), 0o666) // 写入文件(字节数组)
+	err = os.WriteFile("./output_foreign.txt", []byte(loads), 0o666) // 写入文件(字节数组)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

@@ -90,8 +90,8 @@ func AllForeign(cookie string) {
 // 搜索课程
 // content 为模糊搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
 // content可以传入多个字符串以满足多字段匹配，比如输入"魔法“,"go学长", 就会显示出
-// go学长的xxxx魔法xxx课
-func Search(cookie string, content []string) {
+// go学长的xxxx魔法xxx课，同时会将对应的loads返回.
+func Search(cookie string, content []string) (loads []string) {
 ...
 }
 ```
