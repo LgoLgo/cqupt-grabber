@@ -10,7 +10,8 @@ func main() {
 	// 支持同时抢多门课程
 	loads := []string{
 		"这里是第一节课",
-		"这里是第二节课"}
+		"这里是第二节课",
+	}
 
 	tool.Grabber.LoopRob(cookie, loads)
 }
