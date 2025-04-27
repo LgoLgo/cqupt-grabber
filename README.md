@@ -1,5 +1,9 @@
 ![cqupt-grabber](img/cqupt-grabber.png)
 
+## 版本
+当前版本：**v0.1.2**  
+> 版本号信息用于标识当前发布的版本。
+
 ## 目录
 - [cqupt-grabber](#cqupt-grabber)
     - [目录](#目录)
