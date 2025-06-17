@@ -152,6 +152,7 @@ func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string)
 	return
 }
 
+// 通用方法，用于根据给定的关键词过滤课程
 func confirmContain(data model.MetaData, content []string) bool {
 	for _, str := range content {
 		if !strings.Contains(fmt.Sprintln(data), str) {
@@ -161,7 +162,7 @@ func confirmContain(data model.MetaData, content []string) bool {
 	return true
 }
 
-// 处理数据
+// 处理数据并转换成 load
 func solveData(item model.MetaData) (load string) {
 	fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
 	var builder strings.Builder

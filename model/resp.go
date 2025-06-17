@@ -24,3 +24,10 @@ type MetaData struct {
 	KchType string `json:"kchType"`
 	Memo    string `json:"memo"`
 }
+
+type SmallRequest struct {
+	Action string `json:"action"`
+	Jxb    string `json:"jxb"`
+	Kclb   string `json:"kclb"`
+	Kcbh   string `json:"kcbh"`
+}
