@@ -10,8 +10,7 @@ import (
 	"github.com/LgoLgo/cqupt-grabber/model"
 )
 
-type SmallQueryer struct {
-}
+type SmallQueryer struct{}
 
 // 针对于小学期的选课的请求
 func smallRequest(class, cookie string) []byte {
