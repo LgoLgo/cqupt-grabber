@@ -16,5 +16,5 @@ func main() {
 	classNo := "你的班级号"
 
 	loads := tool.Queryer.BlockSearch(cookie, str3, classNo)
-	tool.Grabber.LoopRobWithHighConcurrency(cookie, loads)
+	tool.Grabber.LoopRob(cookie, loads)
 }
