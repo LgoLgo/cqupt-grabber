@@ -1,8 +1,7 @@
 ![cqupt-grabber](img/cqupt-grabber.png)
 
 ## 版本
-当前版本：**v0.1.2**  
-> 版本号信息用于标识当前发布的版本。
+当前版本：**v0.1.3**  
 
 ## 目录
 - [cqupt-grabber](#cqupt-grabber)
@@ -59,33 +58,36 @@ func main() {
   //支持同时抢多门课程
   loads := []string{
     "这里是第一节课",
-    "这里是第二节课"}
+    "这里是第二节课",
+  }
 
   tool.Grabber.LoopRob(cookie, loads)
 }
 ```
 
-> 为防止工具滥用的可能性， cookie 以及 load 需要自己获取
+针对于小学期选课，你应该使用 NewForSmallTerm() 来获取对象，详情见 example
+
+> 为防止工具滥用的可能性，只提供一定示例，不提供详细的使用教程。
 
 ## 其余功能
 
 ```go
 // 获得所有人文选修课 loads
-func AllRenWen(cookie string) {
+func (q *Queryer) AllRenWen(cookie string) {
 ...
 }
 ```
 
 ```go
 // 获得所有自然选修课 loads
-func AllZiRan(cookie string) {
+func (q *Queryer) AllZiRan(cookie string) {
 ...
 }
 ```
 
 ```go
 // 获取所有外语选修课 loads
-func AllForeign(cookie string) {
+func (q *Queryer) AllForeign(cookie string) {
 ...
 }
 ```
@@ -93,7 +95,7 @@ func AllForeign(cookie string) {
 ```go
 // 搜索课程 load , param 中传入 jctsRw (人文) / jctsZr (自然) 或 yyxx (英语)
 // content 为模糊搜索内容例如输入“工程”会将所有带有工程两个字的课程信息以及负载输出
-func Search(param string, cookie string, content string) {
+func (q *Queryer) Search(param string, cookie string, content string) {
 ...
 }
 ```
@@ -115,14 +117,14 @@ func (q *Queryer) BlockSearch(cookie string, contents []string) (loads []string)
 
 ```go
 // 高并发抢课 会有被 BAN 风险，**不推荐**使用
-func LoopRobWithHighConcurrency(cookie string, loads []string) {
+func (g *Grabber) LoopRobWithHighConcurrency(cookie string, loads []string) {
 ...
 }
 ```
 
 ```go
 // 只进行一次访问并传回响应
-func SingleRobWithInfo(cookie string, load string) {
+func (g *Grabber) SingleRobWithInfo(cookie string, load string) {
 ...
 }
 ```
@@ -130,10 +132,26 @@ func SingleRobWithInfo(cookie string, load string) {
 ```go
 // 自定义一次访问的速度
 // duration 中为你想自定义的秒数，建议不小于0.2
-func LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
+func (g *Grabber) LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ...
 }
 ```
+
+```go
+// 小学期选课的阻塞式搜索，相对于普通选课，需要传入自己的班级号。
+func (q *SmallQueryer) BlockSearch(cookie string, contents []string, class string) (loads []model.MetaData) {
+...
+}
+```
+
+```go
+// 循环抢课，
+func (g *SmallGrabber) LoopRob(cookie string, loads []model.MetaData) {
+...
+}
+```
+更多功能请自行探索。
+
 
 ## 其他
 若还有其他疑问请提交 issue ，若想参与开发或有任何 BUG 欢迎提交 PR 。
