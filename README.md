@@ -55,7 +55,7 @@ func main() {
 
   cookie := "这里是一个cookie"
 
-  //支持同时抢多门课程
+  // 支持同时抢多门课程
   loads := []string{
     "这里是第一节课",
     "这里是第二节课",
@@ -102,7 +102,7 @@ func (q *Queryer) Search(param string, cookie string, content string) {
 
 ```go
 // 非阻塞地简易搜索, 传入关键字切片, 返回 loads, 可直接作为 loads 传入抢课方法中, 如果没拿到 loads
-// 会直接返回.
+// 会直接返回，注意，小学期和正常选课的函数签名不一样。
 func (q *Queryer) SimpleSearch(cookie string, content []string) (loads []string) {
 ...
 }
@@ -131,21 +131,21 @@ func (g *Grabber) SingleRobWithInfo(cookie string, load string) {
 
 ```go
 // 自定义一次访问的速度
-// duration 中为你想自定义的秒数，建议不小于0.2
+// duration 中为你想自定义的秒数，建议不小于 0.2
 func (g *Grabber) LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
 ...
 }
 ```
 
 ```go
-// 小学期选课的阻塞式搜索，相对于普通选课，需要传入自己的班级号。
+// 小学期选课的阻塞式搜索，相对于普通选课，需要传入自己的班级号
 func (q *SmallQueryer) BlockSearch(cookie string, contents []string, class string) (loads []model.MetaData) {
 ...
 }
 ```
 
 ```go
-// 循环抢课，
+// 循环抢课
 func (g *SmallGrabber) LoopRob(cookie string, loads []model.MetaData) {
 ...
 }

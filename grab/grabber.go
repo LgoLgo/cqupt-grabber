@@ -65,7 +65,7 @@ func (g *Grabber) SingleRobWithInfo(cookie, load string) {
 }
 
 // LoopRob 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban
-// 传入一个 cookie 和一个 load 切片
+// 传入一个 cookie 和 loads 切片
 func (g *Grabber) LoopRob(cookie string, loads []string) {
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
