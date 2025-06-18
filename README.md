@@ -1,7 +1,7 @@
 ![cqupt-grabber](img/cqupt-grabber.png)
 
 ## 版本
-当前版本：**v0.1.3**  
+当前版本：**v0.1.4**  
 
 ## 目录
 - [cqupt-grabber](#cqupt-grabber)
