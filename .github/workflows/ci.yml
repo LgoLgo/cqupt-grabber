@@ -1,20 +1,33 @@
 name: CI
-
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
-  Lint:
-    runs-on: [ ubuntu-latest ]
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
+      - uses: actions/setup-go@v5
         with:
-          go-version: 1.18
+          go-version: "1.22"
 
-      - name: Lint
+      - name: Install Linux deps for Fyne
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            pkg-config \
+            libgl1-mesa-dev \
+            xorg-dev \
+            libxcursor-dev \
+            libxrandr-dev \
+            libxinerama-dev \
+            libxi-dev
+
+      - name: Lint (vet + gofumpt check)
         run: |
           go vet -stdmethods=false $(go list ./...)
           go install mvdan.cc/gofumpt@v0.2.0
           test -z "$(gofumpt -l -extra .)"
+
+      - name: Build
+        run: go build ./...

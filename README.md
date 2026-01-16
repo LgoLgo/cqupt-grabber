@@ -44,7 +44,27 @@ import "github.com/LgoLgo/cqupt-grabber"
 ```
 
 ## 快速开始
+使用包中的 可视化界面（暂仅支持关键词搜索后循环抢课；支持预选课，正式选课，小学期（未测试））
+
+```go
+package main
+
+import (
+	"github.com/LgoLgo/cqupt-grabber/client"
+)
+
+func main() {
+	a := client.InitApp()
+	w := client.InitWindow(a, 800, 600)
+
+	client.InitCTLs(a, w)
+	w.ShowAndRun()
+}
+
+```
+
 使用包中的 LoopRob ， 0.25s 进行一次抢课，直到有一门课被抢到
+
 ```go
 package main
 

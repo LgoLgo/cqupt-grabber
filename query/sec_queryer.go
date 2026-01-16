@@ -97,7 +97,7 @@ func (q *SecQueryer) Search(param, cookie, content string) {
 			if err != nil {
 				log.Println("解析错误")
 			}
-			fmt.Println(load)
+			log.Println(load)
 		}
 	}
 	return
@@ -146,14 +146,14 @@ func (q *SecQueryer) SearchForPE(cookie string, content []string) (loads []model
 		PE := secRequest("tyfx&jxb="+course.Jxb, cookie)
 		Response := make(map[string]interface{})
 		json.Unmarshal(PE, &Response)
-		fmt.Println(Response)
+		log.Println(Response)
 		for _, data := range Response["data"].([]interface{}) {
 			mp := data.(map[string]interface{})
 			if err != nil {
 				log.Fatal(err)
 			}
 			for _, x := range mp {
-				fmt.Println(x)
+				log.Println(x)
 			}
 			// 确保包含关键词
 			if confirmContain(mp["jxbName"].(string), content) ||

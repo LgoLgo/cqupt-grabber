@@ -164,7 +164,7 @@ func confirmContain(data string, content []string) bool {
 
 // 处理数据并转换成 load
 func solveData(item model.MetaData) (load string) {
-	fmt.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
+	log.Println("开课学期：", item.Xnxq, "课程名：", item.Kcmc, "学分：", item.Xf, "教师姓名：", item.TeaName)
 	var builder strings.Builder
 	SRsLimit := strconv.Itoa(item.RsLimit)
 	SRwType := strconv.Itoa(item.RwType)

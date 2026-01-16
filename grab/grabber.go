@@ -1,6 +1,7 @@
 package grab
 
 import (
+	"context"
 	"encoding/json"
 	"io"
 	"log"
@@ -90,9 +91,39 @@ ok:
 	log.Println("抢课成功")
 }
 
+func (g *Grabber) LoopRobWithCtx(ctx context.Context, cookie string, loads []string) {
+	for i := 1; ; i++ {
+		select {
+		case <-ctx.Done():
+			log.Println("已停止抢课")
+			return
+		default:
+		}
+		log.Printf("第%d次抢课开始", i)
+		for j, load := range loads {
+			j += 1
+
+			// 调用SingleRob进行循环抢课
+
+			info := g.SingleRob(cookie, load)
+			if info == "ok" {
+				log.Printf("课程%d：%s\n", j, info)
+				goto ok
+			} else {
+				log.Printf("课程%d：%s\n", j, info)
+			}
+			time.Sleep(250 * time.Millisecond)
+		}
+		log.Printf("第%d次抢课失败\n\n", i)
+		time.Sleep(250 * time.Millisecond)
+	}
+ok:
+	log.Println("抢课成功")
+}
+
 // LoopRobWithCustomTime 循环抢课，支持多个课程同时抢，支持自定义时间。不建议使用
 // 传入一个 cookie 和一个 load 切片以及自定义时间
-func (g *Grabber) LoopRobWithCustomTime(cookie string, loads []string, duration float64) {
+func (g *Grabber) LoopRobWithCustomTime(ctx context.Context, cookie string, loads []string, duration float64) {
 	for i := 1; ; i++ {
 		log.Printf("第%d次抢课开始", i)
 		for j, load := range loads {
@@ -114,7 +145,7 @@ ok:
 	log.Println("抢课成功")
 }
 
-func (g *Grabber) highConcurrencySingleRob(cookie, load string, j int) {
+func (g *Grabber) highConcurrencySingleRob(ctx context.Context, cookie, load string, j int) {
 	j += 1
 	log.Printf("协程%d开启\n", j)
 	for i := 1; ; i++ {
@@ -134,11 +165,11 @@ func (g *Grabber) highConcurrencySingleRob(cookie, load string, j int) {
 }
 
 // LoopRobWithHighConcurrency 高并发抢课
-func (g *Grabber) LoopRobWithHighConcurrency(cookie string, loads []string) {
+func (g *Grabber) LoopRobWithHighConcurrency(ctx context.Context, cookie string, loads []string) {
 	for i, load := range loads {
 		g.wg.Add(1)
 		// 调用SingleRob进行循环抢课
-		go g.highConcurrencySingleRob(cookie, load, i)
+		go g.highConcurrencySingleRob(ctx, cookie, load, i)
 	}
 	g.wg.Wait()
 	log.Println("抢课成功")

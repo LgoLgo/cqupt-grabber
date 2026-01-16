@@ -1,6 +1,8 @@
 package main
 
-import "github.com/LgoLgo/cqupt-grabber/cqupt"
+import (
+	"github.com/LgoLgo/cqupt-grabber/cqupt"
+)
 
 func main() {
 	tool := cqupt.New()
