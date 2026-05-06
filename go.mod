@@ -2,7 +2,7 @@ module github.com/LgoLgo/cqupt-grabber
 
 go 1.18
 
-require fyne.io/fyne/v2 v2.7.2
+require fyne.io/fyne/v2 v2.7.3
 
 require (
 	fyne.io/systray v1.12.0 // indirect
@@ -17,7 +17,7 @@ require (
 	github.com/go-gl/gl v0.0.0-20231021071112-07e5d0ea2e71 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20240506104042-037f3cc74f2a // indirect
 	github.com/go-text/render v0.2.0 // indirect
-	github.com/go-text/typesetting v0.2.1 // indirect
+	github.com/go-text/typesetting v0.3.3 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/hack-pad/go-indexeddb v0.3.2 // indirect
 	github.com/hack-pad/safejs v0.1.0 // indirect
